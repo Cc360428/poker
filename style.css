@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 20px;
+}
+
+.card-section {
+  margin-bottom: 30px;
+}
+
+.card-zone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 90px;
+  border: 2px dashed #ccc;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  position: relative;
+}
+
+.card {
+  width: 60px;
+  height: 90px;
+  background-size: cover;
+  background-position: center;
+  cursor: grab;
+  transition: transform 0.2s;
+  opacity: 1;
+  pointer-events: auto;
+  position: relative;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.background-card {
+  width: 60px;
+  height: 90px;
+  background-image: url('PNG/Background.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  pointer-events: none;
+  cursor: default;
+}
+
+.count {
+  font-size: 16px;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+}
+
+.bottom-card .star {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  color: gold;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.player-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.player {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.zone-label {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hand-cards,
+.discard-zone,
+.region-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 90px;
+  border: 2px solid #ddd;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: #fafafa;
+}
+
+.region-group {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.add-region-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-region-btn:hover {
+  background-color: #43a047;
+}

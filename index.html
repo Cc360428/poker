@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dummy 游戏原型</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- 所有牌 -->
+    <div class="card-section">
+        <h3>所有牌（2～A 排序）</h3>
+        <div id="all-cards" class="card-zone all"></div>
+    </div>
+
+    <!-- 公共牌 -->
+    <div class="card-section public-section">
+        <h3>公共牌（底牌标记⭐️ + 剩余牌数）</h3>
+        <div id="public-cards" class="card-zone public"></div>
+    </div>
+
+    <!-- 玩家区域 -->
+    <div id="game-area" class="player-layout"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
