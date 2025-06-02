@@ -393,32 +393,41 @@ function setupDragAndDrop() {
   // 公共牌区域拖入支持
   const publicZone = document.getElementById("public-cards");
   publicZone.addEventListener("dragover", (e) => e.preventDefault());
+  // 修改 publicZone 的 drop 事件处理函数
   publicZone.addEventListener("drop", function () {
-    if (draggedCard) {
-      if (
-        this.children.length === 1 &&
-        this.querySelector(".background-card")
-      ) {
-        const isBottom = confirm("是否将此牌设为底牌？");
-        if (isBottom) {
-          draggedCard.classList.add("bottom-card");
+    if (!draggedCard) return;
 
-          const star = document.createElement("div");
-          star.classList.add("star");
-          star.textContent = "⭐️";
-          draggedCard.appendChild(star);
-        }
+    // 1. 首次拖入时询问是否设为底牌
+    if (this.children.length === 1 && this.querySelector(".background-card")) {
+      const isBottom = confirm("是否将此牌设为底牌？");
+      if (isBottom) {
+        draggedCard.classList.add("bottom-card");
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.textContent = "⭐️";
+        draggedCard.appendChild(star);
       }
-
-      const background = this.querySelector(".background-card");
-      if (background) {
-        this.insertBefore(draggedCard, background.nextSibling);
-      } else {
-        this.appendChild(draggedCard);
-      }
-
-      updatePublicCardCount(); // 更新剩余牌数
     }
+
+    // 2. 定位插入位置（关键逻辑）
+    const background = this.querySelector(".background-card");
+    const bottomCard = this.querySelector(".bottom-card");
+    this.appendChild(draggedCard);
+    // // ==== 新逻辑：严格顺序控制 ====
+    // if (bottomCard) {
+    //   // 存在底牌：新牌插入到底牌之后
+    //   this.insertBefore(draggedCard, bottomCard.nextSibling);
+    // } else if (background) {
+    //   // 无底牌：新牌插入到牌背之前
+    //   this.insertBefore(draggedCard, background);
+    // } else {
+    //   // 极端情况：直接追加
+
+    // }
+    // ==== 结束新逻辑 ====
+
+    // 3. 更新剩余牌数
+    updatePublicCardCount();
   });
 
   // 拖回“所有牌”区域处理
