@@ -96,7 +96,7 @@ function sortCards(cards) {
   });
 }
 
-// 创建一张牌元素
+// 修改createCardElement函数，将ID显示在右上角
 function createCardElement(imgName) {
   const card = document.createElement("div");
   card.classList.add("card");
@@ -104,10 +104,120 @@ function createCardElement(imgName) {
   card.dataset.name = imgName;
   card.draggable = true;
 
+  const { suit, rank } = parseCardName(imgName);
+  const { cardId, numericValue } = getCardInfo(suit, rank);
+
+  // 创建右上角显示容器
+  const idContainer = document.createElement("div");
+  idContainer.className = "card-id-container";
+
+  // 牌ID（第一行）
+  const idElement = document.createElement("div");
+  idElement.className = "card-id";
+  idElement.textContent = cardId;
+  idContainer.appendChild(idElement);
+
+  // 数字值（第二行）
+  const valueElement = document.createElement("div");
+  valueElement.className = "card-value";
+  valueElement.textContent = numericValue;
+  idContainer.appendChild(valueElement);
+
+  card.appendChild(idContainer);
+
+  card.dataset.cardId = cardId;
+  card.dataset.numericValue = numericValue;
+
   card.addEventListener("dragstart", dragStart);
   card.addEventListener("dragend", dragEnd);
 
   return card;
+}
+
+// 新增函数：获取牌ID和数字值
+function getCardInfo(suit, rank) {
+  if (!suit || !rank) return { cardId: "Invalid", numericValue: "0" };
+
+  const suitPrefix =
+    suit === "Spade"
+      ? "S"
+      : suit === "Heart"
+      ? "H"
+      : suit === "Club"
+      ? "C"
+      : "D";
+
+  // 定义牌面值对应的数字
+  const rankToValue = {
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    10: 10,
+    J: 11,
+    Q: 12,
+    K: 13,
+    A: 14,
+  };
+
+  const numericValue = rankToValue[rank] || 0;
+
+  // 生成牌ID
+  let cardId;
+  if (["A", "J", "Q", "K"].includes(rank)) {
+    cardId = `${rank}${suitPrefix}`;
+  } else {
+    cardId = `R${rank}${suitPrefix}`;
+  }
+
+  return { cardId, numericValue };
+}
+
+function getCardInfo(suit, rank) {
+  if (!suit || !rank) return { cardId: "Invalid", numericValue: "0" };
+
+  const suitPrefix =
+    suit === "Spade"
+      ? "S"
+      : suit === "Heart"
+      ? "H"
+      : suit === "Club"
+      ? "C"
+      : "D";
+
+  // 生成牌ID
+  let cardId;
+  if (["A", "J", "Q", "K"].includes(rank)) {
+    cardId = `${rank}${suitPrefix}`;
+  } else {
+    cardId = `R${rank}${suitPrefix}`;
+  }
+
+  // 计算对应的数字值
+  const suitOrder = { D: 0, C: 1, H: 2, S: 3 };
+  const rankOrder = {
+    2: 1,
+    3: 5,
+    4: 9,
+    5: 13,
+    6: 17,
+    7: 21,
+    8: 25,
+    9: 29,
+    10: 33,
+    J: 37,
+    Q: 41,
+    K: 45,
+    A: 49,
+  };
+
+  const numericValue = rankOrder[rank] + suitOrder[suitPrefix];
+
+  return { cardId, numericValue };
 }
 
 // 初始化所有牌并排序
@@ -191,7 +301,7 @@ function initPlayers(count = 4) {
     input.onchange = () => {};
     header.appendChild(input);
 
-    // 手牌区（只允许从“所有牌”拖入）
+    // 手牌区（只允许从 所有牌 拖入）
     const handZone = document.createElement("div");
     handZone.className = "hand-cards";
     handZone.setAttribute("data-player", i);
